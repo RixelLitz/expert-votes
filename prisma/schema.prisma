@@ -1,0 +1,19 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Poll {
+  id String @id @default(uuid()) //cria um id do tipo string o  @id define o id padrão e o @default cria um uuid
+  title String // a enquete vai ter um titulo
+  createdAt DateTime @default(now()) // a enquete vai ter uma data de criação @default vai pegar a data atual da inserção de serviço
+  updatedAt DateTime @default(now()) // mesma coisa mas quando é atualizado
+  @@map("polls") // altera o nome da tabela
+}
