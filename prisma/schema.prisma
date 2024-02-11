@@ -16,6 +16,7 @@ model Poll {
   createdAt DateTime     @default(now()) // a enquete vai ter uma data de criação @default vai pegar a data atual da inserção de serviço
   updatedAt DateTime     @default(now()) // mesma coisa mas quando é atualizado
   options   PollOption[]
+  votes      Vote[]
 
   @@map("polls") // altera o nome da tabela
 }
@@ -25,4 +26,16 @@ model PollOption {
   title  String
   pollId String // referencia a qual enquete essa opção pertence
   poll   Poll   @relation(fields: [pollId], references: [id])
+  votes   Vote[]
+}
+
+model Vote {
+  id           Int        @id @default(autoincrement())
+  sessionId    String
+  pollId       String
+  pollOptionId String
+  createdAt    DateTime   @default(now())
+  poll         Poll       @relation(fields: [pollId], references: [id])
+  pollOption   PollOption @relation(fields: [pollOptionId], references: [id])
+  @@unique([sessionId, pollId ])
 }
