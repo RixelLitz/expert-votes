@@ -11,9 +11,18 @@ datasource db {
 }
 
 model Poll {
-  id String @id @default(uuid()) //cria um id do tipo string o  @id define o id padrão e o @default cria um uuid
-  title String // a enquete vai ter um titulo
-  createdAt DateTime @default(now()) // a enquete vai ter uma data de criação @default vai pegar a data atual da inserção de serviço
-  updatedAt DateTime @default(now()) // mesma coisa mas quando é atualizado
+  id        String       @id @default(uuid()) //cria um id do tipo string o  @id define o id padrão e o @default cria um uuid
+  title     String // a enquete vai ter um titulo
+  createdAt DateTime     @default(now()) // a enquete vai ter uma data de criação @default vai pegar a data atual da inserção de serviço
+  updatedAt DateTime     @default(now()) // mesma coisa mas quando é atualizado
+  options   PollOption[]
+
   @@map("polls") // altera o nome da tabela
+}
+
+model PollOption {
+  id     String @id @default(uuid())
+  title  String
+  pollId String // referencia a qual enquete essa opção pertence
+  poll   Poll   @relation(fields: [pollId], references: [id])
 }
